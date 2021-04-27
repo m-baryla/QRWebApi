@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-#nullable disable
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
 
 namespace QRWebApi.Models
 {
@@ -21,7 +23,7 @@ namespace QRWebApi.Models
         public virtual DbSet<DictEquipment> DictEquipments { get; set; }
         public virtual DbSet<DictLocation> DictLocations { get; set; }
         public virtual DbSet<DictPermission> DictPermissions { get; set; }
-        public virtual DbSet<DictStatus> DictStatuses { get; set; }
+        public virtual DbSet<DictStatu> DictStatus { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<TicketsHistory> TicketsHistories { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -37,8 +39,6 @@ namespace QRWebApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Polish_CI_AS");
-
             modelBuilder.Entity<DictEmailAdress>(entity =>
             {
                 entity.ToTable("DICT_EmailAdress");
@@ -79,11 +79,9 @@ namespace QRWebApi.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<DictStatus>(entity =>
+            modelBuilder.Entity<DictStatu>(entity =>
             {
                 entity.ToTable("DICT_Status");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Status)
                     .IsRequired()
@@ -109,7 +107,7 @@ namespace QRWebApi.Models
 
                 entity.Property(e => e.Photo)
                     .HasMaxLength(50)
-                    .IsFixedLength(true);
+                    .IsFixedLength();
 
                 entity.Property(e => e.Topic)
                     .HasMaxLength(50)
@@ -164,7 +162,7 @@ namespace QRWebApi.Models
 
                 entity.Property(e => e.Photo)
                     .HasMaxLength(50)
-                    .IsFixedLength(true);
+                    .IsFixedLength();
 
                 entity.Property(e => e.Topic)
                     .HasMaxLength(50)
@@ -206,7 +204,7 @@ namespace QRWebApi.Models
 
                 entity.Property(e => e.Photo)
                     .HasMaxLength(50)
-                    .IsFixedLength(true);
+                    .IsFixedLength();
 
                 entity.Property(e => e.Topic).HasMaxLength(50);
 
