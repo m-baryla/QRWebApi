@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using QRWebApi.Models;
 
 namespace QRWebApi
 {
@@ -26,6 +28,8 @@ namespace QRWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            var connection = "Data Source=.;Initial Catalog=QRapp;Integrated Security=True;";
+            services.AddDbContext<QRappContext>(options => options.UseSqlServer(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
