@@ -28,8 +28,7 @@ namespace QRWebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            var connection = "Data Source=.;Initial Catalog=QRapp;Integrated Security=True;";
-            services.AddDbContext<QRappContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<QRappContext>(options => options.UseSqlServer(Configuration.GetConnectionString("QRappDB")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
