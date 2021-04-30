@@ -194,8 +194,6 @@ namespace QRWebApi.Models
             {
                 entity.ToTable("Wiki");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Description).HasMaxLength(50);
 
                 entity.Property(e => e.IdEquipment).HasColumnName("Id_equipment");
