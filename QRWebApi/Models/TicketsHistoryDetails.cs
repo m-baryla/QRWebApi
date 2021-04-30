@@ -7,13 +7,17 @@ using System.Collections.Generic;
 
 namespace QRWebApi.Models
 {
-    public partial class WikiDetails
+    public partial class TicketsHistoryDetails
     {
         public int Id { get; set; }
-        public string LocationName { get; set; }
-        public string EquipmentName { get; set; }
+        public string UserName { get; set; }
         public string Topic { get; set; }
         public string Description { get; set; }
         public byte[] Photo { get; set; }
+        public string LocationName { get; set; }
+        public string EquipmentName { get; set; }
+        public string Status { get; set; }
+        public string EmailAdress { get; set; }
+        public bool? IsAnonymous { get; set; }
     }
 }

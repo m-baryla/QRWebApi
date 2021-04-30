@@ -22,6 +22,34 @@ namespace QRWebApi.Controllers
             _context = context;
         }
 
+        // POST: api/Tickets
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<Ticket>> PostTicket(TicketsDetails ticket)
+        {
+            _context.Tickets.Add(new Ticket()
+            {
+                IdUser = _context.Users.Where(u => u.Login == ticket.UserName).Select(u => u.Id).First(),
+                Topic = ticket.Topic,
+                Description = ticket.Description,
+                Photo = ticket.Photo,
+                IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
+                IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
+                IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
+                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First(),
+                IsAnonymous = ticket.IsAnonymous
+            });
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetTicket", new { id = ticket.Id }, ticket);
+        }
+
+        private bool TicketExists(int id)
+        {
+            return _context.Tickets.Any(e => e.Id == id);
+        }
+
         //// GET: api/Tickets
         //[HttpGet]
         //public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
@@ -75,28 +103,7 @@ namespace QRWebApi.Controllers
         //    return NoContent();
         //}
 
-        // POST: api/Tickets
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Ticket>> PostTicket(TicketsDetails ticket)
-        {
-            _context.Tickets.Add(new Ticket()
-            {
-                IdUser = _context.Users.Where(u => u.Login == ticket.UserName).Select(u=>u.Id).First(),
-                Topic = ticket.Topic,
-                Description = ticket.Description,
-                Photo = ticket.Photo,
-                IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
-                IdEquipment =  _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
-                IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
-                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First(),
-                IsAnonymous = ticket.IsAnonymous
-            });
-            await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTicket", new { id = ticket.Id }, ticket);
-        }
 
         //// DELETE: api/Tickets/5
         //[HttpDelete("{id}")]
@@ -113,10 +120,5 @@ namespace QRWebApi.Controllers
 
         //    return ticket;
         //}
-
-        private bool TicketExists(int id)
-        {
-            return _context.Tickets.Any(e => e.Id == id);
-        }
     }
 }

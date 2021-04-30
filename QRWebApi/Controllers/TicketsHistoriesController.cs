@@ -29,7 +29,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/TicketsHistories/TicketsHistoriesDetails
         [HttpGet("TicketsHistoriesDetails/")]
-        public async Task<ActionResult<IEnumerable<TicketsDetails>>> TicketsHistoriesDetails()
+        public async Task<ActionResult<IEnumerable<TicketsHistoryDetails>>> TicketsHistoriesDetails()
         {
 
             var query = (from h in _context.TicketsHistories
@@ -38,7 +38,7 @@ namespace QRWebApi.Controllers
                 join l in _context.DictLocations on h.IdLocation equals l.Id
                 join s in _context.DictStatus on h.IdStatus equals s.Id
                 join u in _context.Users on h.IdUser equals u.Id
-                 select new TicketsDetails
+                 select new TicketsHistoryDetails
                  {
                       UserName = u.Login,
                       Topic = h.Topic,
@@ -52,6 +52,11 @@ namespace QRWebApi.Controllers
                     }).ToListAsync();
 
             return await query;
+        }
+
+        private bool TicketsHistoryExists(int id)
+        {
+            return _context.TicketsHistories.Any(e => e.Id == id);
         }
 
         // GET: api/TicketsHistories/5
@@ -128,9 +133,5 @@ namespace QRWebApi.Controllers
         //    return ticketsHistory;
         //}
 
-        private bool TicketsHistoryExists(int id)
-        {
-            return _context.TicketsHistories.Any(e => e.Id == id);
-        }
     }
 }

@@ -29,7 +29,6 @@ namespace QRWebApi.Controllers
             return await _context.Wikis.ToListAsync();
         }
 
-
         // GET: /api/Wikis/GetWikiDetail/
         [HttpGet("GetWikiDetail/")]
         public async Task<ActionResult<IEnumerable<WikiDetails>>> GetWikiDetail()
@@ -47,6 +46,30 @@ namespace QRWebApi.Controllers
                                     }).ToListAsync();
 
             return await query;
+        }
+
+        // POST: api/Wikis
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<Wiki>> PostWiki(WikiDetails wiki)
+        {
+            _context.Wikis.Add(new Wiki()
+            {
+                Topic = wiki.Topic,
+                Description = wiki.Description,
+                Photo = wiki.Photo,
+                IdLocation = _context.DictLocations.Where(l => l.LocationName == wiki.LocationName).Select(l => l.Id).First(),
+                IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == wiki.EquipmentName).Select(e => e.Id).First(),
+            });
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetWiki", new { id = wiki.Id }, wiki);
+        }
+
+        private bool WikiExists(int id)
+        {
+            return _context.Wikis.Any(e => e.Id == id);
         }
 
         //// GET: api/Wikis/5
@@ -123,9 +146,5 @@ namespace QRWebApi.Controllers
         //    return wiki;
         //}
 
-        private bool WikiExists(int id)
-        {
-            return _context.Wikis.Any(e => e.Id == id);
-        }
     }
 }
