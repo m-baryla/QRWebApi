@@ -7,8 +7,9 @@ using System.Collections.Generic;
 
 namespace QRWebApi.Models
 {
-    public partial class TicketsHistoryDetails
+    public partial class TicketsDetails
     {
+        public int Id { get; set; }
         public string UserName { get; set; }
         public string Topic { get; set; }
         public string Description { get; set; }
@@ -20,4 +21,3 @@ namespace QRWebApi.Models
         public bool? IsAnonymous { get; set; }
     }
 }
-
