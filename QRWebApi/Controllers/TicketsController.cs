@@ -22,6 +22,31 @@ namespace QRWebApi.Controllers
             _context = context;
         }
 
+        // GET: api/Tickets
+        [HttpGet("TicketsHistoriesDetails/")]
+        public async Task<ActionResult<IEnumerable<TicketsDetails>>> TicketsHistoriesDetails()
+        {
+            var query = (from h in _context.Tickets
+                         join a in _context.DictEmailAdresses on h.IdEmailAdress equals a.Id
+                join e in _context.DictEquipments on h.IdEquipment equals e.Id
+                join l in _context.DictLocations on h.IdLocation equals l.Id
+                join s in _context.DictStatus on h.IdStatus equals s.Id
+                join u in _context.Users on h.IdUser equals u.Id
+                select new TicketsDetails
+                {
+                    UserName = u.Login,
+                    Topic = h.Topic,
+                    Description = h.Description,
+                    Photo = h.Photo,
+                    LocationName = l.LocationName,
+                    EquipmentName = e.EquipmentName,
+                    EmailAdress = a.EmailAdressNotify,
+                    Status = s.Status,
+                    IsAnonymous = h.IsAnonymous
+                }).ToListAsync();
+
+            return await query;
+        }
         // POST: api/Tickets
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

@@ -25,7 +25,6 @@ namespace QRWebApi.Models
         public virtual DbSet<DictPermission> DictPermissions { get; set; }
         public virtual DbSet<DictStatu> DictStatus { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
-        public virtual DbSet<TicketsHistory> TicketsHistories { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Wiki> Wikis { get; set; }
 
@@ -105,10 +104,6 @@ namespace QRWebApi.Models
 
                 entity.Property(e => e.IdUser).HasColumnName("Id_user");
 
-                entity.Property(e => e.Photo)
-                    .HasMaxLength(50)
-                    .IsFixedLength();
-
                 entity.Property(e => e.Topic)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -142,33 +137,6 @@ namespace QRWebApi.Models
                     .HasConstraintName("FK_Tickets_Users");
             });
 
-            modelBuilder.Entity<TicketsHistory>(entity =>
-            {
-                entity.ToTable("TicketsHistory");
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IdEmailAdress).HasColumnName("Id_emailAdress");
-
-                entity.Property(e => e.IdEquipment).HasColumnName("Id_equipment");
-
-                entity.Property(e => e.IdLocation).HasColumnName("Id_location");
-
-                entity.Property(e => e.IdStatus).HasColumnName("Id_status");
-
-                entity.Property(e => e.IdUser).HasColumnName("Id_user");
-
-                entity.Property(e => e.Photo)
-                    .HasMaxLength(50)
-                    .IsFixedLength();
-
-                entity.Property(e => e.Topic)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.IdPermission).HasColumnName("Id_Permission");
@@ -199,10 +167,6 @@ namespace QRWebApi.Models
                 entity.Property(e => e.IdEquipment).HasColumnName("Id_equipment");
 
                 entity.Property(e => e.IdLocation).HasColumnName("Id_location");
-
-                entity.Property(e => e.Photo)
-                    .HasMaxLength(50)
-                    .IsFixedLength();
 
                 entity.Property(e => e.Topic).HasMaxLength(50);
 
