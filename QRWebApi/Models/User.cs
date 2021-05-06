@@ -17,9 +17,7 @@ namespace QRWebApi.Models
         public int Id { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
-        public int IdPermission { get; set; }
 
-        public virtual DictPermission IdPermissionNavigation { get; set; }
         public virtual ICollection<Ticket> Tickets { get; set; }
     }
 }

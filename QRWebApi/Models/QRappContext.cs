@@ -22,7 +22,6 @@ namespace QRWebApi.Models
         public virtual DbSet<DictEmailAdress> DictEmailAdresses { get; set; }
         public virtual DbSet<DictEquipment> DictEquipments { get; set; }
         public virtual DbSet<DictLocation> DictLocations { get; set; }
-        public virtual DbSet<DictPermission> DictPermissions { get; set; }
         public virtual DbSet<DictStatu> DictStatus { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -63,16 +62,6 @@ namespace QRWebApi.Models
                 entity.ToTable("DICT_Location");
 
                 entity.Property(e => e.LocationName)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<DictPermission>(entity =>
-            {
-                entity.ToTable("DICT_Permissions");
-
-                entity.Property(e => e.Permissions)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -139,8 +128,6 @@ namespace QRWebApi.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.IdPermission).HasColumnName("Id_Permission");
-
                 entity.Property(e => e.Login)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -150,12 +137,6 @@ namespace QRWebApi.Models
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                entity.HasOne(d => d.IdPermissionNavigation)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.IdPermission)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Users_DICT_Permissions");
             });
 
             modelBuilder.Entity<Wiki>(entity =>
