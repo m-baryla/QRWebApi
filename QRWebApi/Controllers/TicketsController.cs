@@ -27,13 +27,14 @@ namespace QRWebApi.Controllers
         public async Task<ActionResult<IEnumerable<TicketsDetails>>> TicketsHistoriesDetails()
         {
             var query = (from h in _context.Tickets
-                         join a in _context.DictEmailAdresses on h.IdEmailAdress equals a.Id
+                join a in _context.DictEmailAdresses on h.IdEmailAdress equals a.Id
                 join e in _context.DictEquipments on h.IdEquipment equals e.Id
                 join l in _context.DictLocations on h.IdLocation equals l.Id
                 join s in _context.DictStatus on h.IdStatus equals s.Id
                 join u in _context.Users on h.IdUser equals u.Id
                 select new TicketsDetails
                 {
+                    Id = h.Id,
                     UserName = u.Login,
                     Topic = h.Topic,
                     Description = h.Description,
@@ -68,6 +69,53 @@ namespace QRWebApi.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTicket", new { id = ticket.Id }, ticket);
+        }
+
+        // PUT: api/Tickets/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutTicket(int id, TicketsDetails ticket)
+        {
+
+            var _ticket = new Ticket()
+            {
+                Id = ticket.Id,
+                IdUser = _context.Users.Where(u => u.Login == ticket.UserName).Select(u => u.Id).First(),
+                Topic = ticket.Topic,
+                Description = ticket.Description,
+                Photo = ticket.Photo,
+                IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
+                IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
+                IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
+                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First(),
+                IsAnonymous = ticket.IsAnonymous
+            };
+
+            if (id != ticket.Id)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(_ticket).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TicketExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
         private bool TicketExists(int id)
