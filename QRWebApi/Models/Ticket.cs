@@ -18,7 +18,6 @@ namespace QRWebApi.Models
         public int IdEquipment { get; set; }
         public int IdStatus { get; set; }
         public int? IdEmailAdress { get; set; }
-        public bool? IsAnonymous { get; set; }
 
         public virtual DictEmailAdress IdEmailAdressNavigation { get; set; }
         public virtual DictEquipment IdEquipmentNavigation { get; set; }

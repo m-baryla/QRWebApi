@@ -30,6 +30,19 @@ namespace QRWebApi.Controllers
         {
             return _context.DictEquipments.Any(e => e.Id == id);
         }
+
+        // POST: api/DictEquipments
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<DictEquipment>> PostDictEquipment(DictEquipment dictEquipment)
+        {
+            _context.DictEquipments.Add(dictEquipment);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetDictEquipment", new { id = dictEquipment.Id }, dictEquipment);
+        }
+
         //// GET: api/DictEquipments/5
         //[HttpGet("{id}")]
         //public async Task<ActionResult<DictEquipment>> GetDictEquipment(int id)

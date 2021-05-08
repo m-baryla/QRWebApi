@@ -43,7 +43,6 @@ namespace QRWebApi.Controllers
                     EquipmentName = e.EquipmentName,
                     EmailAdress = a.EmailAdressNotify,
                     Status = s.Status,
-                    IsAnonymous = h.IsAnonymous
                 }).ToListAsync();
 
             return await query;
@@ -63,8 +62,7 @@ namespace QRWebApi.Controllers
                 IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
                 IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
                 IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
-                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First(),
-                IsAnonymous = ticket.IsAnonymous
+                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First()
             });
             await _context.SaveChangesAsync();
 
@@ -88,8 +86,7 @@ namespace QRWebApi.Controllers
                 IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
                 IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
                 IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
-                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First(),
-                IsAnonymous = ticket.IsAnonymous
+                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First()
             };
 
             if (id != ticket.Id)
