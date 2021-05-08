@@ -51,9 +51,18 @@ namespace QRWebApi.Controllers
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> PostUser(UserDetail user)
         {
-            _context.Users.Add(user);
+            if (user.Password_1 == user.Password_2)
+                user.Password = user.Password_1;
+            else
+                user.Password = null;
+
+            _context.Users.Add(new User()
+            {
+                Login = user.Login,
+                Password = user.Password
+            });
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
