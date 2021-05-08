@@ -32,6 +32,34 @@ namespace QRWebApi.Controllers
             return _context.DictEmailAdresses.Any(e => e.Id == id);
         }
 
+
+        // POST: api/DictEmailAdresses
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [HttpPost]
+        public async Task<ActionResult<DictEmailAdress>> PostDictEmailAdress(DictEmailAdress dictEmailAdress)
+        {
+            _context.DictEmailAdresses.Add(dictEmailAdress);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetDictEmailAdress", new { id = dictEmailAdress.Id }, dictEmailAdress);
+        }
+
+        //// POST: api/DictEmailAdresses
+        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
+        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        //[HttpPost]
+        //public async Task<ActionResult<DictEmailAdress>> PostDictEmailAdress(DictEmailAdress dictEmailAdress)
+        //{
+        //    _context.DictEmailAdresses.Add(new DictEmailAdress()
+        //    {
+        //        EmailAdressNotify = dictEmailAdress.EmailAdressNotify
+        //    });
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction("GetDictEmailAdress", new { id = dictEmailAdress.Id }, dictEmailAdress);
+        //}
+
         //// GET: api/DictEmailAdresses/5
         //[HttpGet("{id}")]
         //public async Task<ActionResult<DictEmailAdress>> GetDictEmailAdress(int id)
