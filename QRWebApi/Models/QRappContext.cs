@@ -51,6 +51,10 @@ namespace QRWebApi.Models
             {
                 entity.ToTable("DICT_Equipment");
 
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.EquipmentName)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -60,6 +64,10 @@ namespace QRWebApi.Models
             modelBuilder.Entity<DictLocation>(entity =>
             {
                 entity.ToTable("DICT_Location");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.LocationName)
                     .IsRequired()
