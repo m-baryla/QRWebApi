@@ -31,8 +31,8 @@ namespace QRWebApi.Controllers
             return await _context.DictEmailAdresses.ToListAsync();
         }
 
-        // GET: api/DictEmailAdresses/SendEmail
-        [HttpGet("SendEmail")]
+        // POST: api/DictEmailAdresses/SendEmail
+        [HttpPost("SendEmail")]
         public async Task SendEmail()
         {
             var message = new Message(new string[]{"mateusz.baryla@onet.com.pl"},"TestEmilaasync","Content emeila");

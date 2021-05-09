@@ -34,10 +34,10 @@ namespace QRWebApi
         {
 
             var emailConfig = Configuration.GetSection("EmailSenderConfig").Get<EmailSenderConfig>();
+
             services.AddSingleton(emailConfig);
             services.AddScoped<IEmailSender, EmailSender.EmailSender>();
 
-            services.AddControllers();
             services.AddDbContext<QRappContext>(options => options.UseSqlServer(Configuration.GetConnectionString("QRappDB")));
 
             services.AddMvc(option =>  option.EnableEndpointRouting = false)
@@ -47,7 +47,7 @@ namespace QRWebApi
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthentication>("BasicAuthentication", null);
 
-           
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
