@@ -65,7 +65,7 @@ namespace QRWebApi.Controllers
             });
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction(nameof(PostUser), new { id = user.Id }, user);
         }
         ////GET: api/Users/5
         ////[HttpGet("{id}")]

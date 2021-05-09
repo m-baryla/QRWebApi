@@ -64,7 +64,7 @@ namespace QRWebApi.Controllers
             });
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetWiki", new { id = wiki.Id }, wiki);
+            return CreatedAtAction(nameof(PostWiki), new { id = wiki.Id }, wiki);
         }
 
         private bool WikiExists(int id)

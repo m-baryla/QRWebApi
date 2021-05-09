@@ -41,7 +41,7 @@ namespace QRWebApi.Controllers
             _context.DictLocations.Add(dictLocation);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDictLocation", new { id = dictLocation.Id }, dictLocation);
+            return CreatedAtAction(nameof(PostDictLocation), new { id = dictLocation.Id }, dictLocation);
         }
 
         //// GET: api/DictLocations/5

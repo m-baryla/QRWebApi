@@ -40,7 +40,7 @@ namespace QRWebApi.Controllers
             _context.DictEquipments.Add(dictEquipment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDictEquipment", new { id = dictEquipment.Id }, dictEquipment);
+            return CreatedAtAction(nameof(PostDictEquipment), new { id = dictEquipment.Id }, dictEquipment);
         }
 
         //// GET: api/DictEquipments/5

@@ -64,9 +64,9 @@ namespace QRWebApi.Controllers
                 IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
                 IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First()
             });
-            await _context.SaveChangesAsync();
+             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTicket", new { id = ticket.Id }, ticket);
+            return CreatedAtAction(nameof(PostTicket), new { id = ticket.Id }, ticket);
         }
 
         // PUT: api/Tickets/5

@@ -42,7 +42,7 @@ namespace QRWebApi.Controllers
             _context.DictEmailAdresses.Add(dictEmailAdress);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDictEmailAdress", new { id = dictEmailAdress.Id }, dictEmailAdress);
+            return CreatedAtAction(nameof(PostDictEmailAdress), new { id = dictEmailAdress.Id }, dictEmailAdress);
         }
 
         //// POST: api/DictEmailAdresses
