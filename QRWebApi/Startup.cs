@@ -32,12 +32,6 @@ namespace QRWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            var emailConfig = Configuration.GetSection("EmailSenderConfig").Get<EmailSenderConfig>();
-
-            services.AddSingleton(emailConfig);
-            services.AddScoped<IEmailSender, EmailSender.EmailSender>();
-
             services.AddDbContext<QRappContext>(options => options.UseSqlServer(Configuration.GetConnectionString("QRappDB")));
 
             services.AddMvc(option =>  option.EnableEndpointRouting = false)

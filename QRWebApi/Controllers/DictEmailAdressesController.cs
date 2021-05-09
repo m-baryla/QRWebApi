@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,12 +17,10 @@ namespace QRWebApi.Controllers
     public class DictEmailAdressesController : ControllerBase
     {
         private readonly QRappContext _context;
-        private readonly IEmailSender _emailSender;
 
-        public DictEmailAdressesController(QRappContext context,IEmailSender emailSender)
+        public DictEmailAdressesController(QRappContext context)
         {
             _context = context;
-            _emailSender = emailSender;
         }
 
         // GET: api/DictEmailAdresses
@@ -35,6 +34,14 @@ namespace QRWebApi.Controllers
         [HttpPost("SendEmail")]
         public async Task SendEmail(DictEmailAdressDetails _adress)
         {
+            var _emailSenderConfig = new EmailSenderConfig();
+            _emailSenderConfig.MailFrom = _context.EmailSenderConfigs.Select(u => u.MailFrom).SingleOrDefault();
+            _emailSenderConfig.MailHost = _context.EmailSenderConfigs.Select(u => u.MailHost).SingleOrDefault();
+            _emailSenderConfig.EmailUser = _context.EmailSenderConfigs.Select(u => u.EmailUser).SingleOrDefault();
+            var pass = Convert.FromBase64String(_context.EmailSenderConfigs.Select(u => u.EmailPassword).SingleOrDefault());
+            _emailSenderConfig.EmailPassword = Encoding.UTF8.GetString(pass);
+
+            var _emailSender = new EmailSender.EmailSender(_emailSenderConfig);
             var message = new Message(new string[]{ _adress.EmailAdressNotify}, _adress.Subject, _adress.Content_part1, _adress.Content_part2, _adress.Content_part3);
             await _emailSender.SendEmailAsync(message);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
@@ -7,11 +8,11 @@ using QRWebApi.Models;
 
 namespace QRWebApi.EmailSender
 {
-    public class EmailSender : IEmailSender
+    public class EmailSender 
     {
         private readonly EmailSenderConfig _emailSenderConfig;
 
-        public EmailSender(EmailSenderConfig emailSenderConfig)
+        public EmailSender(EmailSenderConfig emailSenderConfig )
         {
             _emailSenderConfig = emailSenderConfig;
         }
