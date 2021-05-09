@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using QRWebApi.EmailSender;
 using QRWebApi.Models;
 
 namespace QRWebApi.Controllers
@@ -32,14 +33,10 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictEmailAdresses/SendEmail
         [HttpGet("SendEmail")]
-        public async Task<ActionResult<IEnumerable<DictEmailAdress>>> SendEmail()
+        public async Task SendEmail()
         {
-            var message = new Message(new string[]{"mateusz.baryla@onet.com.pl"},"TestEmila","Content emeila");
-            _emailSender.SendEmail(message);
-
-
-
-            return await _context.DictEmailAdresses.ToListAsync();
+            var message = new Message(new string[]{"mateusz.baryla@onet.com.pl"},"TestEmilaasync","Content emeila");
+            await _emailSender.SendEmailAsync(message);
         }
 
 

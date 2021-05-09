@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using QRWebApi.EmailSender;
 using QRWebApi.Models;
 
 //Scaffold-DbContext -Connection Name=QRappDB Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -force
@@ -34,7 +35,7 @@ namespace QRWebApi
 
             var emailConfig = Configuration.GetSection("EmailSenderConfig").Get<EmailSenderConfig>();
             services.AddSingleton(emailConfig);
-            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IEmailSender, EmailSender.EmailSender>();
 
             services.AddControllers();
             services.AddDbContext<QRappContext>(options => options.UseSqlServer(Configuration.GetConnectionString("QRappDB")));

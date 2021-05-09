@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using MimeKit;
 
-namespace QRWebApi.Models
+namespace QRWebApi.EmailSender
 {
     public class Message
     {
