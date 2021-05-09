@@ -31,6 +31,11 @@ namespace QRWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var emailConfig = Configuration.GetSection("EmailSenderConfig").Get<EmailSenderConfig>();
+            services.AddSingleton(emailConfig);
+            services.AddScoped<IEmailSender, EmailSender>();
+
             services.AddControllers();
             services.AddDbContext<QRappContext>(options => options.UseSqlServer(Configuration.GetConnectionString("QRappDB")));
 
@@ -40,6 +45,8 @@ namespace QRWebApi
 
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthentication>("BasicAuthentication", null);
+
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

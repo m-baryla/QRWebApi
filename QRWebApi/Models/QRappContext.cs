@@ -23,6 +23,7 @@ namespace QRWebApi.Models
         public virtual DbSet<DictEquipment> DictEquipments { get; set; }
         public virtual DbSet<DictLocation> DictLocations { get; set; }
         public virtual DbSet<DictStatu> DictStatus { get; set; }
+        public virtual DbSet<EmailSenderConfig> EmailSenderConfigs { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Wiki> Wikis { get; set; }
@@ -82,6 +83,33 @@ namespace QRWebApi.Models
                 entity.Property(e => e.Status)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<EmailSenderConfig>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("EmailSenderConfig");
+
+                entity.Property(e => e.EmailPassword)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EmailUser)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MailFrom)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.MailHost)
+                    .IsRequired()
+                    .HasMaxLength(200)
                     .IsUnicode(false);
             });
 

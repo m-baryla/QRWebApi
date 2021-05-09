@@ -15,10 +15,12 @@ namespace QRWebApi.Controllers
     public class DictEmailAdressesController : ControllerBase
     {
         private readonly QRappContext _context;
+        private readonly IEmailSender _emailSender;
 
-        public DictEmailAdressesController(QRappContext context)
+        public DictEmailAdressesController(QRappContext context,IEmailSender emailSender)
         {
             _context = context;
+            _emailSender = emailSender;
         }
 
         // GET: api/DictEmailAdresses
@@ -27,9 +29,17 @@ namespace QRWebApi.Controllers
         {
             return await _context.DictEmailAdresses.ToListAsync();
         }
-        private bool DictEmailAdressExists(int id)
+
+        // GET: api/DictEmailAdresses/SendEmail
+        [HttpGet("SendEmail")]
+        public async Task<ActionResult<IEnumerable<DictEmailAdress>>> SendEmail()
         {
-            return _context.DictEmailAdresses.Any(e => e.Id == id);
+            var message = new Message(new string[]{"mateusz.baryla@onet.com.pl"},"TestEmila","Content emeila");
+            _emailSender.SendEmail(message);
+
+
+
+            return await _context.DictEmailAdresses.ToListAsync();
         }
 
 
@@ -43,6 +53,10 @@ namespace QRWebApi.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(PostDictEmailAdress), new { id = dictEmailAdress.Id }, dictEmailAdress);
+        }
+        private bool DictEmailAdressExists(int id)
+        {
+            return _context.DictEmailAdresses.Any(e => e.Id == id);
         }
 
         //// POST: api/DictEmailAdresses
