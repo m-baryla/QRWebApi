@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
@@ -28,7 +29,25 @@ namespace QRWebApi.EmailSender
             emailMessage.From.Add(new MailboxAddress(_emailSenderConfig.MailFrom));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
-            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) {Text = string.Format("<h2 style='color:black'>{0}</h2>", message.Content) };
+
+           
+            emailMessage.Body = new TextPart(MimeKit.Text.TextFormat.Html) 
+            {Text = string.Format(
+               "<body>" +
+                    "<h1>Subject : {0}</h1>" +
+                        "<p>{0}</p>" +
+                    "<h1>Location</h1>" +
+                        "<p>{1}</p>" +
+                    "<h1>Equipment</h1>" +
+                        "<p>{2}</p>" +
+                    "<h1>Description</h1>" +
+                        "<p>{3}</p>" +
+               "</body>",
+                message.Subject,
+                message.Content_part1, 
+                message.Content_part2, 
+                message.Content_part3) };
+
             return emailMessage;
         }
 

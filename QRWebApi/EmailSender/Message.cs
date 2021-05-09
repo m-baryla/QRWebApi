@@ -8,15 +8,19 @@ namespace QRWebApi.EmailSender
     {
         public List<MailboxAddress> To { get; set; }
         public string Subject { get; set; }
-        public string Content { get; set; }
+        public string Content_part1 { get; set; }
+        public string Content_part2 { get; set; }
+        public string Content_part3 { get; set; }
 
-        public Message(IEnumerable<string> to,string subject,string content)
+        public Message(IEnumerable<string> to,string subject,string content1, string content2, string content3)
         {
             To = new List<MailboxAddress>();
 
             To.AddRange(to.Select(x => new MailboxAddress(x)));
             Subject = subject;
-            Content = content;
+            Content_part1 = content1;
+            Content_part2 = content2;
+            Content_part3 = content3;
         }
     }
 }

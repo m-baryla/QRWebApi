@@ -33,9 +33,9 @@ namespace QRWebApi.Controllers
 
         // POST: api/DictEmailAdresses/SendEmail
         [HttpPost("SendEmail")]
-        public async Task SendEmail()
+        public async Task SendEmail(DictEmailAdressDetails _adress)
         {
-            var message = new Message(new string[]{"mateusz.baryla@onet.com.pl"},"TestEmilaasync","Content emeila");
+            var message = new Message(new string[]{ _adress.EmailAdressNotify}, _adress.Subject, _adress.Content_part1, _adress.Content_part2, _adress.Content_part3);
             await _emailSender.SendEmailAsync(message);
         }
 
