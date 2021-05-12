@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using QRWebApi.Auth;
 using QRWebApi.EmailSender;
 using QRWebApi.Models;
 
