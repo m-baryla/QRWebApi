@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/qrappdb/databases/QRAppDB",
+      "type": "mssql.azure",
+      "connectionId": "QRappDB",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
