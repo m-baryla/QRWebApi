@@ -10,7 +10,7 @@ namespace QRWebApi.Models
     public partial class Ticket
     {
         public int Id { get; set; }
-        public int? IdUser { get; set; }
+        public string UserName { get; set; }
         public string Topic { get; set; }
         public string Description { get; set; }
         public byte[] Photo { get; set; }
@@ -23,6 +23,5 @@ namespace QRWebApi.Models
         public virtual DictEquipment IdEquipmentNavigation { get; set; }
         public virtual DictLocation IdLocationNavigation { get; set; }
         public virtual DictStatu IdStatusNavigation { get; set; }
-        public virtual User IdUserNavigation { get; set; }
     }
 }

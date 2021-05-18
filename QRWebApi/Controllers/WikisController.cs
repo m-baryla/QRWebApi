@@ -15,9 +15,9 @@ namespace QRWebApi.Controllers
     [ApiController]
     public class WikisController : ControllerBase
     {
-        private readonly QRappContext _context;
+        private readonly QRAppDBContext _context;
 
-        public WikisController(QRappContext context)
+        public WikisController(QRAppDBContext context)
         {
             _context = context;
         }
@@ -49,8 +49,6 @@ namespace QRWebApi.Controllers
         }
 
         // POST: api/Wikis
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Wiki>> PostWiki(WikiDetails wiki)
         {
@@ -71,80 +69,6 @@ namespace QRWebApi.Controllers
         {
             return _context.Wikis.Any(e => e.Id == id);
         }
-
-        //// GET: api/Wikis/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Wiki>> GetWiki(int id)
-        //{
-        //    var wiki = await _context.Wikis.FindAsync(id);
-
-        //    if (wiki == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return wiki;
-        //}
-
-        //// PUT: api/Wikis/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutWiki(int id, Wiki wiki)
-        //{
-        //    if (id != wiki.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(wiki).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!WikiExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //// POST: api/Wikis
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPost]
-        //public async Task<ActionResult<Wiki>> PostWiki(Wiki wiki)
-        //{
-        //    _context.Wikis.Add(wiki);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetWiki", new { id = wiki.Id }, wiki);
-        //}
-
-        //// DELETE: api/Wikis/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<Wiki>> DeleteWiki(int id)
-        //{
-        //    var wiki = await _context.Wikis.FindAsync(id);
-        //    if (wiki == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Wikis.Remove(wiki);
-        //    await _context.SaveChangesAsync();
-
-        //    return wiki;
-        //}
 
     }
 }

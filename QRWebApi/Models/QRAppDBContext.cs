@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace QRWebApi.Models
 {
-    public partial class QRappContext : DbContext
+    public partial class QRAppDBContext : DbContext
     {
-        public QRappContext()
+        public QRAppDBContext()
         {
         }
 
-        public QRappContext(DbContextOptions<QRappContext> options)
+        public QRAppDBContext(DbContextOptions<QRAppDBContext> options)
             : base(options)
         {
         }
@@ -25,7 +25,6 @@ namespace QRWebApi.Models
         public virtual DbSet<DictStatu> DictStatus { get; set; }
         public virtual DbSet<EmailSenderConfig> EmailSenderConfigs { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Wiki> Wikis { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -127,9 +126,11 @@ namespace QRWebApi.Models
 
                 entity.Property(e => e.IdStatus).HasColumnName("Id_status");
 
-                entity.Property(e => e.IdUser).HasColumnName("Id_user");
-
                 entity.Property(e => e.Topic)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UserName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -155,24 +156,6 @@ namespace QRWebApi.Models
                     .HasForeignKey(d => d.IdStatus)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Tickets_DICT_Status");
-
-                entity.HasOne(d => d.IdUserNavigation)
-                    .WithMany(p => p.Tickets)
-                    .HasForeignKey(d => d.IdUser)
-                    .HasConstraintName("FK_Tickets_Users");
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(e => e.Login)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Wiki>(entity =>

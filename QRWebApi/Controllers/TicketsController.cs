@@ -15,9 +15,9 @@ namespace QRWebApi.Controllers
     [ApiController]
     public class TicketsController : ControllerBase
     {
-        private readonly QRappContext _context;
+        private readonly QRAppDBContext _context;
 
-        public TicketsController(QRappContext context)
+        public TicketsController(QRAppDBContext context)
         {
             _context = context;
         }
@@ -31,11 +31,10 @@ namespace QRWebApi.Controllers
                 join e in _context.DictEquipments on h.IdEquipment equals e.Id
                 join l in _context.DictLocations on h.IdLocation equals l.Id
                 join s in _context.DictStatus on h.IdStatus equals s.Id
-                join u in _context.Users on h.IdUser equals u.Id
                 select new TicketsDetails
                 {
                     Id = h.Id,
-                    UserName = u.Login,
+                    //UserName = u.Login,
                     Topic = h.Topic,
                     Description = h.Description,
                     Photo = h.Photo,
@@ -47,15 +46,14 @@ namespace QRWebApi.Controllers
 
             return await query;
         }
+
         // POST: api/Tickets
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Ticket>> PostTicket(TicketsDetails ticket)
         {
             _context.Tickets.Add(new Ticket()
             {
-                IdUser = _context.Users.Where(u => u.Login == ticket.UserName).Select(u => u.Id).First(),
+                //IdUser = _context.Users.Where(u => u.Login == ticket.UserName).Select(u => u.Id).First(),
                 Topic = ticket.Topic,
                 Description = ticket.Description,
                 Photo = ticket.Photo,
@@ -70,8 +68,6 @@ namespace QRWebApi.Controllers
         }
 
         // PUT: api/Tickets/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTicket(int id, TicketsDetails ticket)
         {
@@ -79,7 +75,7 @@ namespace QRWebApi.Controllers
             var _ticket = new Ticket()
             {
                 Id = ticket.Id,
-                IdUser = _context.Users.Where(u => u.Login == ticket.UserName).Select(u => u.Id).First(),
+                //IdUser = _context.Users.Where(u => u.Login == ticket.UserName).Select(u => u.Id).First(),
                 Topic = ticket.Topic,
                 Description = ticket.Description,
                 Photo = ticket.Photo,
@@ -119,76 +115,5 @@ namespace QRWebApi.Controllers
         {
             return _context.Tickets.Any(e => e.Id == id);
         }
-
-        //// GET: api/Tickets
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
-        //{
-        //    return await _context.Tickets.ToListAsync();
-        //}
-
-        //// GET: api/Tickets/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Ticket>> GetTicket(int id)
-        //{
-        //    var ticket = await _context.Tickets.FindAsync(id);
-
-        //    if (ticket == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return ticket;
-        //}
-
-        //// PUT: api/Tickets/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutTicket(int id, Ticket ticket)
-        //{
-        //    if (id != ticket.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(ticket).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!TicketExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-
-
-        //// DELETE: api/Tickets/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<Ticket>> DeleteTicket(int id)
-        //{
-        //    var ticket = await _context.Tickets.FindAsync(id);
-        //    if (ticket == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Tickets.Remove(ticket);
-        //    await _context.SaveChangesAsync();
-
-        //    return ticket;
-        //}
     }
 }
