@@ -42,7 +42,7 @@ namespace QRWebApi.Controllers
             _emailSenderConfig.EmailPassword = Encoding.UTF8.GetString(pass);
 
             var _emailSender = new EmailSender.EmailSender(_emailSenderConfig);
-            var message = new Message(new string[]{ _adress.EmailAdressNotify}, _adress.Subject, _adress.Content_part1, _adress.Content_part2, _adress.Content_part3);
+            var message = new Message(new string[]{ _adress.EmailAdressNotify}, _adress.Subject, _adress.Content_part1, _adress.Content_part2, _adress.Content_part3,_adress.UserSender);
             await _emailSender.SendEmailAsync(message);
         }
 

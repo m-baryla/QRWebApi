@@ -12,5 +12,6 @@ namespace QRWebApi.Models
         public string Content_part1 { get; set; }
         public string Content_part2 { get; set; }
         public string Content_part3 { get; set; }
+        public string UserSender { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace QRWebApi.Controllers
                 select new TicketsDetails
                 {
                     Id = h.Id,
-                    //UserName = u.Login,
+                    UserName = h.UserName,
                     Topic = h.Topic,
                     Description = h.Description,
                     Photo = h.Photo,
@@ -53,7 +53,7 @@ namespace QRWebApi.Controllers
         {
             _context.Tickets.Add(new Ticket()
             {
-                //IdUser = _context.Users.Where(u => u.Login == ticket.UserName).Select(u => u.Id).First(),
+                UserName = ticket.UserName,
                 Topic = ticket.Topic,
                 Description = ticket.Description,
                 Photo = ticket.Photo,
@@ -75,7 +75,7 @@ namespace QRWebApi.Controllers
             var _ticket = new Ticket()
             {
                 Id = ticket.Id,
-                //IdUser = _context.Users.Where(u => u.Login == ticket.UserName).Select(u => u.Id).First(),
+                UserName = ticket.UserName,
                 Topic = ticket.Topic,
                 Description = ticket.Description,
                 Photo = ticket.Photo,

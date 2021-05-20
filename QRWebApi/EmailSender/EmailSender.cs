@@ -43,11 +43,15 @@ namespace QRWebApi.EmailSender
                         "<p>{2}</p>" +
                     "<h1>Description</h1>" +
                         "<p>{3}</p>" +
+                     "<h1>UserSender</h1>" +
+                        "<p>{4}</p>" +
                "</body>",
                 message.Subject,
                 message.Content_part1, 
                 message.Content_part2, 
-                message.Content_part3) };
+                message.Content_part3,
+                message.UserSender)
+            };
 
             return emailMessage;
         }
