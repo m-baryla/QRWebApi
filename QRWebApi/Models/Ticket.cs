@@ -18,10 +18,14 @@ namespace QRWebApi.Models
         public int IdEquipment { get; set; }
         public int IdStatus { get; set; }
         public int? IdEmailAdress { get; set; }
+        public int? IdPriority { get; set; }
+        public int? IdTicketType { get; set; }
 
         public virtual DictEmailAdress IdEmailAdressNavigation { get; set; }
         public virtual DictEquipment IdEquipmentNavigation { get; set; }
         public virtual DictLocation IdLocationNavigation { get; set; }
+        public virtual DictPriority IdPriorityNavigation { get; set; }
         public virtual DictStatu IdStatusNavigation { get; set; }
+        public virtual DictTicketType IdTicketTypeNavigation { get; set; }
     }
 }

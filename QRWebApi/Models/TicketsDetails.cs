@@ -18,5 +18,7 @@ namespace QRWebApi.Models
         public string EquipmentName { get; set; }
         public string Status { get; set; }
         public string EmailAdress { get; set; }
+        public string Priority { get; set; }
+        public string TicketType { get; set; }
     }
 }

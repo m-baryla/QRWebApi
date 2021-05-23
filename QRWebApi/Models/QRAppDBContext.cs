@@ -22,7 +22,9 @@ namespace QRWebApi.Models
         public virtual DbSet<DictEmailAdress> DictEmailAdresses { get; set; }
         public virtual DbSet<DictEquipment> DictEquipments { get; set; }
         public virtual DbSet<DictLocation> DictLocations { get; set; }
+        public virtual DbSet<DictPriority> DictPriorities { get; set; }
         public virtual DbSet<DictStatu> DictStatus { get; set; }
+        public virtual DbSet<DictTicketType> DictTicketTypes { get; set; }
         public virtual DbSet<EmailSenderConfig> EmailSenderConfigs { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<Wiki> Wikis { get; set; }
@@ -75,11 +77,31 @@ namespace QRWebApi.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<DictPriority>(entity =>
+            {
+                entity.ToTable("DICT_Priority");
+
+                entity.Property(e => e.PriorityType)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<DictStatu>(entity =>
             {
                 entity.ToTable("DICT_Status");
 
                 entity.Property(e => e.Status)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<DictTicketType>(entity =>
+            {
+                entity.ToTable("DICT_TicketType");
+
+                entity.Property(e => e.Type)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -124,7 +146,11 @@ namespace QRWebApi.Models
 
                 entity.Property(e => e.IdLocation).HasColumnName("Id_location");
 
+                entity.Property(e => e.IdPriority).HasColumnName("Id_priority");
+
                 entity.Property(e => e.IdStatus).HasColumnName("Id_status");
+
+                entity.Property(e => e.IdTicketType).HasColumnName("Id_ticketType");
 
                 entity.Property(e => e.Topic)
                     .HasMaxLength(50)
@@ -151,11 +177,21 @@ namespace QRWebApi.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Tickets_DICT_Location");
 
+                entity.HasOne(d => d.IdPriorityNavigation)
+                    .WithMany(p => p.Tickets)
+                    .HasForeignKey(d => d.IdPriority)
+                    .HasConstraintName("FK_Tickets_DICT_Priority");
+
                 entity.HasOne(d => d.IdStatusNavigation)
                     .WithMany(p => p.Tickets)
                     .HasForeignKey(d => d.IdStatus)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Tickets_DICT_Status");
+
+                entity.HasOne(d => d.IdTicketTypeNavigation)
+                    .WithMany(p => p.Tickets)
+                    .HasForeignKey(d => d.IdTicketType)
+                    .HasConstraintName("FK_Tickets_DICT_TicketType");
             });
 
             modelBuilder.Entity<Wiki>(entity =>

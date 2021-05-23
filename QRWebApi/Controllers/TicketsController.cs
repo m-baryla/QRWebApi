@@ -31,6 +31,8 @@ namespace QRWebApi.Controllers
                 join e in _context.DictEquipments on h.IdEquipment equals e.Id
                 join l in _context.DictLocations on h.IdLocation equals l.Id
                 join s in _context.DictStatus on h.IdStatus equals s.Id
+                join t in _context.DictTicketTypes on h.IdTicketType equals t.Id
+                join p in _context.DictPriorities on h.IdPriority equals p.Id
                 select new TicketsDetails
                 {
                     Id = h.Id,
@@ -42,6 +44,9 @@ namespace QRWebApi.Controllers
                     EquipmentName = e.EquipmentName,
                     EmailAdress = a.EmailAdressNotify,
                     Status = s.Status,
+                    Priority = p.PriorityType,
+                    TicketType = t.Type
+
                 }).ToListAsync();
 
             return await query;
@@ -54,6 +59,8 @@ namespace QRWebApi.Controllers
             _context.Tickets.Add(new Ticket()
             {
                 UserName = ticket.UserName,
+                IdPriority = _context.DictPriorities.Where(p => p.PriorityType == ticket.Priority).Select(p => p.Id).First(),
+                IdTicketType = _context.DictTicketTypes.Where(t => t.Type == ticket.TicketType).Select(t => t.Id).First(),
                 Topic = ticket.Topic,
                 Description = ticket.Description,
                 Photo = ticket.Photo,
@@ -82,7 +89,9 @@ namespace QRWebApi.Controllers
                 IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
                 IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
                 IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
-                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First()
+                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First(),
+                IdPriority = _context.DictPriorities.Where(p => p.PriorityType == ticket.Priority).Select(p => p.Id).First(),
+                IdTicketType = _context.DictTicketTypes.Where(t => t.Type == ticket.TicketType).Select(t => t.Id).First()
             };
 
             if (id != ticket.Id)
