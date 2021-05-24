@@ -20,11 +20,20 @@ namespace QRWebApi.Controllers
             _context = context;
         }
 
-        // GET: api/DictTicketTypes
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<DictTicketType>>> GetDictTicketTypes()
+        // GET: api/DictTicketTypes/GetDictTicketTypes
+        [HttpGet("GetDictTicketTypes")]
+        public async Task<ActionResult<IEnumerable<DictTicketTypeDetail>>> GetDictTicketTypes()
         {
-            return await _context.DictTicketTypes.ToListAsync();
+            var query = (from a in _context.DictTicketTypes
+                join b in _context.Tickets on a.Id equals b.IdTicketType
+                group a by a.Type into g
+                select new DictTicketTypeDetail
+                {
+                    Type = g.Key,
+                    Count = g.Count()
+                }).ToListAsync();
+
+            return await query;
         }
 
         // GET: api/DictTicketTypes/5
