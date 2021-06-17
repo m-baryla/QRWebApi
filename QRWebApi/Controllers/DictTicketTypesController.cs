@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using QRWebApi.Models;
 
 namespace QRWebApi.Controllers
@@ -24,7 +20,6 @@ namespace QRWebApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DictTicketType>>> GetDictTicketTypes()
         {
-            //return await _context.DictTicketTypes.ToListAsync();
             return await _repository.GetDictTicketTypes();
         }
 
@@ -32,57 +27,20 @@ namespace QRWebApi.Controllers
         [HttpGet("GetDictTicketTypesActive")]
         public async Task<ActionResult<IEnumerable<DictTicketTypeDetail>>> GetDictTicketTypesActive()
         {
-            //var query = (from a in _context.DictTicketTypes
-            //    join b in _context.Tickets on a.Id equals b.IdTicketType
-            //    join s in _context.DictStatus on b.IdStatus equals s.Id
-            //    where s.Status == "Active"
-            //    group a by a.Type into g
-            //    select new DictTicketTypeDetail
-            //    {
-            //        Type = g.Key,
-            //        Count = g.Count()
-            //    }).ToListAsync();
-
-            //return await query;
             return await _repository.GetDictTicketTypesActive();
-
         }
 
         // GET: api/DictTicketTypes/GetDictTicketTypesNotActive
         [HttpGet("GetDictTicketTypesNotActive")]
         public async Task<ActionResult<IEnumerable<DictTicketTypeDetail>>> GetDictTicketTypesNotActive()
         {
-            //var query = (from a in _context.DictTicketTypes
-            //    join b in _context.Tickets on a.Id equals b.IdTicketType
-            //    join s in _context.DictStatus on b.IdStatus equals s.Id
-            //    where s.Status == "Not Active" 
-            //    group a by a.Type into g
-            //    select new DictTicketTypeDetail
-            //    {
-            //        Type = g.Key,
-            //        Count = g.Count()
-            //    }).ToListAsync();
-
-            //return await query;
             return await _repository.GetDictTicketTypesNotActive();
-
         }
 
         // GET: api/DictTicketTypes/GetDictTicketTypesAllActive
         [HttpGet("GetDictTicketTypesAllActive")]
         public async Task<ActionResult<IEnumerable<DictTicketTypeDetail>>> GetDictTicketTypesAllActive()
         {
-            //var query = (from a in _context.DictStatus
-            //    join b in _context.Tickets on a.Id equals b.IdStatus
-            //    where a.Status == "Active" 
-            //    group a by a.Status into g
-            //    select new DictTicketTypeDetail
-            //    {
-            //        Type = g.Key,
-            //        Count = g.Count()
-            //    }).ToListAsync();
-
-            //return await query;
             return await _repository.GetDictTicketTypesAllActive();
         }
 
@@ -90,17 +48,6 @@ namespace QRWebApi.Controllers
         [HttpGet("GetDictTicketTypesAllNotActive")]
         public async Task<ActionResult<IEnumerable<DictTicketTypeDetail>>> GetDictTicketTypesAllNotActive()
         {
-            //var query = (from a in _context.DictStatus
-            //    join b in _context.Tickets on a.Id equals b.IdStatus
-            //    where a.Status == "Not Active"
-            //    group a by a.Status into g
-            //    select new DictTicketTypeDetail
-            //    {
-            //        Type = g.Key,
-            //        Count = g.Count()
-            //    }).ToListAsync();
-
-            //return await query;
             return await _repository.GetDictTicketTypesAllNotActive();
         }
 
@@ -108,21 +55,13 @@ namespace QRWebApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<DictTicketType>> GetDictTicketType(int id)
         {
-            //var dictTicketType = await _context.DictTicketTypes.FindAsync(id);
-            var dictTicketType = await _repository.GetDictTicketType(id);
-
-            if (dictTicketType == null)
+            if (id != null)
             {
-                return NotFound();
+                var dictTicketType = await _repository.GetDictTicketType(id);
+
+                return dictTicketType;
             }
-
-            return dictTicketType;
+            return NotFound();
         }
-
-
-        //private bool DictTicketTypeExists(int id)
-        //{
-        //    return _context.DictTicketTypes.Any(e => e.Id == id);
-        //}
-    }
+     }
 }
