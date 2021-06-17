@@ -15,114 +15,167 @@ namespace QRWebApi.Controllers
     [ApiController]
     public class TicketsController : ControllerBase
     {
-        private readonly QRAppDBContext _context;
+        private readonly Repository _repository;
 
         public TicketsController(QRAppDBContext context)
         {
-            _context = context;
+            _repository = new Repository(context);
         }
 
         // GET: api/Tickets
         [HttpGet("TicketsHistoriesDetails/")]
         public async Task<ActionResult<IEnumerable<TicketsDetails>>> TicketsHistoriesDetails()
         {
-            var query = (from h in _context.Tickets
-                join a in _context.DictEmailAdresses on h.IdEmailAdress equals a.Id
-                join e in _context.DictEquipments on h.IdEquipment equals e.Id
-                join l in _context.DictLocations on h.IdLocation equals l.Id
-                join s in _context.DictStatus on h.IdStatus equals s.Id
-                join t in _context.DictTicketTypes on h.IdTicketType equals t.Id
-                join p in _context.DictPriorities on h.IdPriority equals p.Id
-                select new TicketsDetails
-                {
-                    Id = h.Id,
-                    UserName = h.UserName,
-                    Topic = h.Topic,
-                    Description = h.Description,
-                    Photo = h.Photo,
-                    LocationName = l.LocationName,
-                    EquipmentName = e.EquipmentName,
-                    EmailAdress = a.EmailAdressNotify,
-                    Status = s.Status,
-                    Priority = p.PriorityType,
-                    TicketType = t.Type
+            //var query = (from h in _context.Tickets
+            //    join a in _context.DictEmailAdresses on h.IdEmailAdress equals a.Id
+            //    join e in _context.DictEquipments on h.IdEquipment equals e.Id
+            //    join l in _context.DictLocations on h.IdLocation equals l.Id
+            //    join s in _context.DictStatus on h.IdStatus equals s.Id
+            //    join t in _context.DictTicketTypes on h.IdTicketType equals t.Id
+            //    join p in _context.DictPriorities on h.IdPriority equals p.Id
+            //    select new TicketsDetails
+            //    {
+            //        Id = h.Id,
+            //        UserName = h.UserName,
+            //        Topic = h.Topic,
+            //        Description = h.Description,
+            //        Photo = h.Photo,
+            //        LocationName = l.LocationName,
+            //        EquipmentName = e.EquipmentName,
+            //        EmailAdress = a.EmailAdressNotify,
+            //        Status = s.Status,
+            //        Priority = p.PriorityType,
+            //        TicketType = t.Type
 
-                }).ToListAsync();
+            //    }).ToListAsync();
 
-            return await query;
+            //return await query;
+            return await _repository.TicketsHistoriesDetails();
+
         }
 
         // POST: api/Tickets
         [HttpPost]
         public async Task<ActionResult<Ticket>> PostTicket(TicketsDetails ticket)
         {
-            _context.Tickets.Add(new Ticket()
-            {
-                UserName = ticket.UserName,
-                IdPriority = _context.DictPriorities.Where(p => p.PriorityType == ticket.Priority).Select(p => p.Id).First(),
-                IdTicketType = _context.DictTicketTypes.Where(t => t.Type == ticket.TicketType).Select(t => t.Id).First(),
-                Topic = ticket.Topic,
-                Description = ticket.Description,
-                Photo = ticket.Photo,
-                IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
-                IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
-                IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
-                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First()
-            });
-             await _context.SaveChangesAsync();
+            //_context.Tickets.Add(new Ticket()
+            //{
+            //    UserName = ticket.UserName,
+            //    IdPriority = _context.DictPriorities.Where(p => p.PriorityType == ticket.Priority).Select(p => p.Id).First(),
+            //    IdTicketType = _context.DictTicketTypes.Where(t => t.Type == ticket.TicketType).Select(t => t.Id).First(),
+            //    Topic = ticket.Topic,
+            //    Description = ticket.Description,
+            //    Photo = ticket.Photo,
+            //    IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
+            //    IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
+            //    IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
+            //    IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First()
+            //});
+            // await _context.SaveChangesAsync();
+             await _repository.PostTicket(ticket);
+
 
             return CreatedAtAction(nameof(PostTicket), new { id = ticket.Id }, ticket);
         }
 
         // PUT: api/Tickets/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTicket(int id, TicketsDetails ticket)
+        public async Task PutTicket(int id, TicketsDetails ticket)
         {
 
-            var _ticket = new Ticket()
-            {
-                Id = ticket.Id,
-                UserName = ticket.UserName,
-                Topic = ticket.Topic,
-                Description = ticket.Description,
-                Photo = ticket.Photo,
-                IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
-                IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
-                IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
-                IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First(),
-                IdPriority = _context.DictPriorities.Where(p => p.PriorityType == ticket.Priority).Select(p => p.Id).First(),
-                IdTicketType = _context.DictTicketTypes.Where(t => t.Type == ticket.TicketType).Select(t => t.Id).First()
-            };
+            //var _ticket = new Ticket()
+            //{
+            //    Id = ticket.Id,
+            //    UserName = ticket.UserName,
+            //    Topic = ticket.Topic,
+            //    Description = ticket.Description,
+            //    Photo = ticket.Photo,
+            //    IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
+            //    IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
+            //    IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
+            //    IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First(),
+            //    IdPriority = _context.DictPriorities.Where(p => p.PriorityType == ticket.Priority).Select(p => p.Id).First(),
+            //    IdTicketType = _context.DictTicketTypes.Where(t => t.Type == ticket.TicketType).Select(t => t.Id).First()
+            //};
 
-            if (id != ticket.Id)
-            {
-                return BadRequest();
-            }
+            ////if (id != ticket.Id)
+            ////{
+            ////    return BadRequest();
+            ////}
 
-            _context.Entry(_ticket).State = EntityState.Modified;
+            //_context.Entry(_ticket).State = EntityState.Modified;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TicketExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            //try
+            //{
+            //    await _context.SaveChangesAsync();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!_repository.TicketExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
 
-            return NoContent();
+            //return NoContent();
+            await _repository.PutTicket(id, ticket);
         }
 
-        private bool TicketExists(int id)
-        {
-            return _context.Tickets.Any(e => e.Id == id);
-        }
+        //private bool TicketExists(int id)
+        //{
+        //    return _context.Tickets.Any(e => e.Id == id);
+        //}
     }
 }
+
+
+
+
+//public async Task<IActionResult> PutTicket(int id, TicketsDetails ticket)
+//{
+
+//    //var _ticket = new Ticket()
+//    //{
+//    //    Id = ticket.Id,
+//    //    UserName = ticket.UserName,
+//    //    Topic = ticket.Topic,
+//    //    Description = ticket.Description,
+//    //    Photo = ticket.Photo,
+//    //    IdLocation = _context.DictLocations.Where(l => l.LocationName == ticket.LocationName).Select(l => l.Id).First(),
+//    //    IdEquipment = _context.DictEquipments.Where(e => e.EquipmentName == ticket.EquipmentName).Select(e => e.Id).First(),
+//    //    IdStatus = _context.DictStatus.Where(s => s.Status == ticket.Status).Select(s => s.Id).First(),
+//    //    IdEmailAdress = _context.DictEmailAdresses.Where(e => e.EmailAdressNotify == ticket.EmailAdress).Select(e => e.Id).First(),
+//    //    IdPriority = _context.DictPriorities.Where(p => p.PriorityType == ticket.Priority).Select(p => p.Id).First(),
+//    //    IdTicketType = _context.DictTicketTypes.Where(t => t.Type == ticket.TicketType).Select(t => t.Id).First()
+//    //};
+
+//    ////if (id != ticket.Id)
+//    ////{
+//    ////    return BadRequest();
+//    ////}
+
+//    //_context.Entry(_ticket).State = EntityState.Modified;
+
+//    //try
+//    //{
+//    //    await _context.SaveChangesAsync();
+//    //}
+//    //catch (DbUpdateConcurrencyException)
+//    //{
+//    //    if (!_repository.TicketExists(id))
+//    //    {
+//    //        return NotFound();
+//    //    }
+//    //    else
+//    //    {
+//    //        throw;
+//    //    }
+//    //}
+
+//    //return NoContent();
+//    await _repository.PutTicket(id, ticket);
+//}

@@ -13,25 +13,29 @@ namespace QRWebApi.Controllers
     [ApiController]
     public class DictPrioritiesController : ControllerBase
     {
-        private readonly QRAppDBContext _context;
+        private readonly Repository _repository;
+
 
         public DictPrioritiesController(QRAppDBContext context)
         {
-            _context = context;
+            _repository = new Repository(context);
         }
 
         // GET: api/DictPriorities
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DictPriority>>> GetDictPriorities()
         {
-            return await _context.DictPriorities.ToListAsync();
+            //return await _context.DictPriorities.ToListAsync();
+            return await _repository.GetDictPriorities();
+
         }
 
         // GET: api/DictPriorities/5
         [HttpGet("{id}")]
         public async Task<ActionResult<DictPriority>> GetDictPriority(int id)
         {
-            var dictPriority = await _context.DictPriorities.FindAsync(id);
+            //var dictPriority = await _context.DictPriorities.FindAsync(id);
+            var dictPriority = await _repository.GetDictPriority(id);
 
             if (dictPriority == null)
             {
@@ -41,9 +45,9 @@ namespace QRWebApi.Controllers
             return dictPriority;
         }
 
-        private bool DictPriorityExists(int id)
-        {
-            return _context.DictPriorities.Any(e => e.Id == id);
-        }
+        //private bool DictPriorityExists(int id)
+        //{
+        //    return _context.DictPriorities.Any(e => e.Id == id);
+        //}
     }
 }

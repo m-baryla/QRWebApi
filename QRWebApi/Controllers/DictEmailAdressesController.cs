@@ -16,34 +16,41 @@ namespace QRWebApi.Controllers
     [ApiController]
     public class DictEmailAdressesController : ControllerBase
     {
-        private readonly QRAppDBContext _context;
+        private readonly Repository _repository;
 
         public DictEmailAdressesController(QRAppDBContext context)
         {
-            _context = context;
+            _repository = new Repository(context);
         }
 
         // GET: api/DictEmailAdresses
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DictEmailAdress>>> GetDictEmailAdresses()
         {
-            return await _context.DictEmailAdresses.ToListAsync();
+            return await _repository.GetDictEmailAdresses();
+            //return await _context.DictEmailAdresses.ToListAsync();
         }
 
         // POST: api/DictEmailAdresses/SendEmail
         [HttpPost("SendEmail")]
         public async Task SendEmail(DictEmailAdressDetails _adress)
         {
-            var _emailSenderConfig = new EmailSenderConfig();
-            _emailSenderConfig.MailFrom = _context.EmailSenderConfigs.Select(u => u.MailFrom).SingleOrDefault();
-            _emailSenderConfig.MailHost = _context.EmailSenderConfigs.Select(u => u.MailHost).SingleOrDefault();
-            _emailSenderConfig.EmailUser = _context.EmailSenderConfigs.Select(u => u.EmailUser).SingleOrDefault();
-            var pass = Convert.FromBase64String(_context.EmailSenderConfigs.Select(u => u.EmailPassword).SingleOrDefault());
-            _emailSenderConfig.EmailPassword = Encoding.UTF8.GetString(pass);
+            if (_adress != null)
+            {
+                //var query = (from h in _context.EmailSenderConfigs
+                //    select new EmailSenderConfig
+                //    {
+                //        MailFrom = h.MailFrom,
+                //        MailHost = h.MailHost,
+                //        EmailUser = h.EmailUser,
+                //        EmailPassword = Encoding.UTF8.GetString(Convert.FromBase64String(h.EmailPassword))
 
-            var _emailSender = new EmailSender.EmailSender(_emailSenderConfig);
-            var message = new Message(new string[]{ _adress.EmailAdressNotify}, _adress.Subject, _adress.Content_part1, _adress.Content_part2, _adress.Content_part3,_adress.UserSender);
-            await _emailSender.SendEmailAsync(message);
+                //    }).SingleOrDefault();
+
+                var _emailSender = new EmailSender.EmailSender(await _repository.GetEmailConfig());
+                var message = new Message(new string[] { _adress.EmailAdressNotify }, _adress.Subject, _adress.Content_part1, _adress.Content_part2, _adress.Content_part3, _adress.UserSender);
+                await _emailSender.SendEmailAsync(message);
+            }
         }
 
 
@@ -51,15 +58,16 @@ namespace QRWebApi.Controllers
         [HttpPost]
         public async Task<ActionResult<DictEmailAdress>> PostDictEmailAdress(DictEmailAdress dictEmailAdress)
         {
-            _context.DictEmailAdresses.Add(dictEmailAdress);
-            await _context.SaveChangesAsync();
+            //_context.DictEmailAdresses.Add(dictEmailAdress);
+            //await _context.SaveChangesAsync();
+            await _repository.PostDictEmailAdress(dictEmailAdress);
 
             return CreatedAtAction(nameof(PostDictEmailAdress), new { id = dictEmailAdress.Id }, dictEmailAdress);
         }
-        private bool DictEmailAdressExists(int id)
-        {
-            return _context.DictEmailAdresses.Any(e => e.Id == id);
-        }
+        //private bool DictEmailAdressExists(int id)
+        //{
+        //    return _context.DictEmailAdresses.Any(e => e.Id == id);
+        //}
 
     }
 }

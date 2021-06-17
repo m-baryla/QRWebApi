@@ -13,23 +13,24 @@ namespace QRWebApi.Controllers
     [ApiController]
     public class DictStatusController : ControllerBase
     {
-        private readonly QRAppDBContext _context;
+        private readonly Repository _repository;
 
         public DictStatusController(QRAppDBContext context)
         {
-            _context = context;
+            _repository = new Repository(context);
         }
 
         // GET: api/DictStatus
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DictStatu>>> GetDictStatus()
         {
-            return await _context.DictStatus.ToListAsync();
+            //return await _context.DictStatus.ToListAsync();
+            return await _repository.GetDictStatus();
         }
 
-        private bool DictStatuExists(int id)
-        {
-            return _context.DictStatus.Any(e => e.Id == id);
-        }
+        //private bool DictStatuExists(int id)
+        //{
+        //    return _context.DictStatus.Any(e => e.Id == id);
+        //}
     }
 }
