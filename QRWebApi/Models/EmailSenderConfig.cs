@@ -7,12 +7,12 @@ using System.Collections.Generic;
 
 namespace QRWebApi.Models
 {
-    public partial class EmailSenderConfig
-    {
+    public class EmailSenderConfig
+    {        
         public string EmailUser { get; set; }
-        public string EmailPassword { get; set; }
         public string MailHost { get; set; }
         public string MailFrom { get; set; }
+        public string EmailPassword { get; set; }
         public int Port { get; set; }
     }
 }

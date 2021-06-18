@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 namespace QRWebApi.Models
 {
-    public partial class DictStatu
+    public partial class DictStatus
     {
-        public DictStatu()
+        public DictStatus()
         {
             Tickets = new HashSet<Ticket>();
         }

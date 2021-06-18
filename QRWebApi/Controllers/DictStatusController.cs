@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using QRWebApi.Models;
 
 namespace QRWebApi.Controllers
@@ -18,7 +19,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictStatus
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DictStatu>>> GetDictStatus()
+        public async Task<ActionResult<IEnumerable<DictStatus>>> GetDictStatus()
         {
             return await _repository.GetDictStatus();
         }

@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 
 namespace QRWebApi.Models
 {
@@ -45,7 +47,7 @@ namespace QRWebApi.Models
         {
             return await _context.DictPriorities.FindAsync(id);
         }
-        public async Task<List<DictStatu>> GetDictStatus()
+        public async Task<List<DictStatus>> GetDictStatus()
         {
             return await _context.DictStatus.ToListAsync();
         }
@@ -72,27 +74,27 @@ namespace QRWebApi.Models
         public async Task<List<TicketsDetails>> TicketsHistoriesDetails()
         {
             var query = (from h in _context.Tickets
-                join a in _context.DictEmailAdresses on h.IdEmailAdress equals a.Id
-                join e in _context.DictEquipments on h.IdEquipment equals e.Id
-                join l in _context.DictLocations on h.IdLocation equals l.Id
-                join s in _context.DictStatus on h.IdStatus equals s.Id
-                join t in _context.DictTicketTypes on h.IdTicketType equals t.Id
-                join p in _context.DictPriorities on h.IdPriority equals p.Id
-                select new TicketsDetails
-                {
-                    Id = h.Id,
-                    UserName = h.UserName,
-                    Topic = h.Topic,
-                    Description = h.Description,
-                    Photo = h.Photo,
-                    LocationName = l.LocationName,
-                    EquipmentName = e.EquipmentName,
-                    EmailAdress = a.EmailAdressNotify,
-                    Status = s.Status,
-                    Priority = p.PriorityType,
-                    TicketType = t.Type
+                         join a in _context.DictEmailAdresses on h.IdEmailAdress equals a.Id
+                         join e in _context.DictEquipments on h.IdEquipment equals e.Id
+                         join l in _context.DictLocations on h.IdLocation equals l.Id
+                         join s in _context.DictStatus on h.IdStatus equals s.Id
+                         join t in _context.DictTicketTypes on h.IdTicketType equals t.Id
+                         join p in _context.DictPriorities on h.IdPriority equals p.Id
+                         select new TicketsDetails
+                         {
+                             Id = h.Id,
+                             UserName = h.UserName,
+                             Topic = h.Topic,
+                             Description = h.Description,
+                             Photo = h.Photo,
+                             LocationName = l.LocationName,
+                             EquipmentName = e.EquipmentName,
+                             EmailAdress = a.EmailAdressNotify,
+                             Status = s.Status,
+                             Priority = p.PriorityType,
+                             TicketType = t.Type
 
-                }).ToListAsync();
+                         }).ToListAsync();
 
             return await query;
         }
@@ -110,7 +112,7 @@ namespace QRWebApi.Models
 
             return await query;
         }
-        public async Task<EmailSenderConfig> GetEmailConfig()
+        public async Task<EmailSenderConfig> GetEmailConfig(string pass)
         {
             var query = (from h in _context.EmailSenderConfigs
                 select new EmailSenderConfig
@@ -118,24 +120,8 @@ namespace QRWebApi.Models
                     MailFrom = h.MailFrom,
                     MailHost = h.MailHost,
                     EmailUser = h.EmailUser,
-                    EmailPassword = Encoding.UTF8.GetString(Convert.FromBase64String(h.EmailPassword))
-
+                    EmailPassword = Encoding.UTF8.GetString(Convert.FromBase64String(pass))
                 }).SingleOrDefaultAsync();
-
-            return await query;
-        }
-
-        public async Task<List<DictTicketTypeDetail>> GetDictTicketTypesAllActive()
-        {
-            var query = (from a in _context.DictStatus
-                join b in _context.Tickets on a.Id equals b.IdStatus
-                where a.Status == "Active"
-                group a by a.Status into g
-                select new DictTicketTypeDetail
-                {
-                    Type = g.Key,
-                    Count = g.Count()
-                }).ToListAsync();
 
             return await query;
         }
@@ -155,6 +141,21 @@ namespace QRWebApi.Models
 
             return await query;
         }
+        public async Task<List<DictTicketTypeDetail>> GetDictTicketTypesAllActive()
+        {
+            var query = (from a in _context.DictStatus
+                join b in _context.Tickets on a.Id equals b.IdStatus
+                where a.Status == "Active"
+                group a by a.Status into g
+                select new DictTicketTypeDetail
+                {
+                    Type = g.Key,
+                    Count = g.Count()
+                }).ToListAsync();
+
+            return await query;
+        }
+
         public async Task<List<DictTicketTypeDetail>> GetDictTicketTypesActive()
         {
             var query = (from a in _context.DictTicketTypes

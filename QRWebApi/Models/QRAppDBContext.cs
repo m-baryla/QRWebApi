@@ -23,7 +23,7 @@ namespace QRWebApi.Models
         public virtual DbSet<DictEquipment> DictEquipments { get; set; }
         public virtual DbSet<DictLocation> DictLocations { get; set; }
         public virtual DbSet<DictPriority> DictPriorities { get; set; }
-        public virtual DbSet<DictStatu> DictStatus { get; set; }
+        public virtual DbSet<DictStatus> DictStatus { get; set; }
         public virtual DbSet<DictTicketType> DictTicketTypes { get; set; }
         public virtual DbSet<EmailSenderConfig> EmailSenderConfigs { get; set; }
         public virtual DbSet<Ticket> Tickets { get; set; }
@@ -87,7 +87,7 @@ namespace QRWebApi.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<DictStatu>(entity =>
+            modelBuilder.Entity<DictStatus>(entity =>
             {
                 entity.ToTable("DICT_Status");
 
@@ -182,7 +182,7 @@ namespace QRWebApi.Models
                     .HasForeignKey(d => d.IdPriority)
                     .HasConstraintName("FK_Tickets_DICT_Priority");
 
-                entity.HasOne(d => d.IdStatusNavigation)
+                entity.HasOne(d => d.IdStatusesNavigation)
                     .WithMany(p => p.Tickets)
                     .HasForeignKey(d => d.IdStatus)
                     .OnDelete(DeleteBehavior.ClientSetNull)

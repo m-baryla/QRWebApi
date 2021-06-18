@@ -25,7 +25,7 @@ namespace QRWebApi.Models
         public virtual DictEquipment IdEquipmentNavigation { get; set; }
         public virtual DictLocation IdLocationNavigation { get; set; }
         public virtual DictPriority IdPriorityNavigation { get; set; }
-        public virtual DictStatu IdStatusNavigation { get; set; }
+        public virtual DictStatus IdStatusesNavigation { get; set; }
         public virtual DictTicketType IdTicketTypeNavigation { get; set; }
     }
 }
