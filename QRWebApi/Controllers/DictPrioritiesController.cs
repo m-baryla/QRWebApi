@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using QRWebApi.Models;
@@ -19,6 +20,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictPriorities
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<DictPriority>>> GetDictPriorities()
         {
             return await _repository.GetDictPriorities();
@@ -26,6 +28,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictPriorities/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<DictPriority>> GetDictPriority(int id)
         {
             if (id != null)

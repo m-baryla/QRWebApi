@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using QRWebApi.Models;
@@ -19,6 +20,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictLocations
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<DictLocation>>> GetDictLocations()
         {
             return await _repository.GetDictLocations();
@@ -26,6 +28,7 @@ namespace QRWebApi.Controllers
 
         // POST: api/DictLocations
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<DictLocation>> PostDictLocation(DictLocation dictLocation)
         {
             if (dictLocation != null)

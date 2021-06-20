@@ -74,27 +74,27 @@ namespace QRWebApi.Models
         public async Task<List<TicketsDetails>> TicketsHistoriesDetails()
         {
             var query = (from h in _context.Tickets
-                         join a in _context.DictEmailAdresses on h.IdEmailAdress equals a.Id
-                         join e in _context.DictEquipments on h.IdEquipment equals e.Id
-                         join l in _context.DictLocations on h.IdLocation equals l.Id
-                         join s in _context.DictStatus on h.IdStatus equals s.Id
-                         join t in _context.DictTicketTypes on h.IdTicketType equals t.Id
-                         join p in _context.DictPriorities on h.IdPriority equals p.Id
-                         select new TicketsDetails
-                         {
-                             Id = h.Id,
-                             UserName = h.UserName,
-                             Topic = h.Topic,
-                             Description = h.Description,
-                             Photo = h.Photo,
-                             LocationName = l.LocationName,
-                             EquipmentName = e.EquipmentName,
-                             EmailAdress = a.EmailAdressNotify,
-                             Status = s.Status,
-                             Priority = p.PriorityType,
-                             TicketType = t.Type
+                 join a in _context.DictEmailAdresses on h.IdEmailAdress equals a.Id
+                 join e in _context.DictEquipments on h.IdEquipment equals e.Id
+                 join l in _context.DictLocations on h.IdLocation equals l.Id
+                 join s in _context.DictStatus on h.IdStatus equals s.Id
+                 join t in _context.DictTicketTypes on h.IdTicketType equals t.Id
+                 join p in _context.DictPriorities on h.IdPriority equals p.Id
+                 select new TicketsDetails
+                 {
+                     Id = h.Id,
+                     UserName = h.UserName,
+                     Topic = h.Topic,
+                     Description = h.Description,
+                     Photo = h.Photo,
+                     LocationName = l.LocationName,
+                     EquipmentName = e.EquipmentName,
+                     EmailAdress = a.EmailAdressNotify,
+                     Status = s.Status,
+                     Priority = p.PriorityType,
+                     TicketType = t.Type
 
-                         }).ToListAsync();
+                 }).ToListAsync();
 
             return await query;
         }

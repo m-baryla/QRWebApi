@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -21,6 +22,7 @@ namespace QRWebApi.Controllers
 
         // POST: api/EmailSender/SendEmail
         [HttpPost("SendEmail")]
+        [Authorize]
         public async Task SendEmail(DictEmailAdressDetails _adress)
         {
             var myKeyValue = Configuration["EmailPass"];

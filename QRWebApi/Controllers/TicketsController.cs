@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using QRWebApi.Models;
@@ -19,6 +20,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/Tickets
         [HttpGet("TicketsHistoriesDetails/")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<TicketsDetails>>> TicketsHistoriesDetails()
         {
             return await _repository.TicketsHistoriesDetails();
@@ -26,6 +28,7 @@ namespace QRWebApi.Controllers
 
         // POST: api/Tickets
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Ticket>> PostTicket(TicketsDetails ticket)
         {
             if (ticket != null)
@@ -39,6 +42,7 @@ namespace QRWebApi.Controllers
 
         // PUT: api/Tickets/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task PutTicket(int id, TicketsDetails ticket)
         {
             if (ticket != null && id != null)

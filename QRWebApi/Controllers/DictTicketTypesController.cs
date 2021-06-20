@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using QRWebApi.Models;
@@ -19,6 +20,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictTicketTypes
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<DictTicketType>>> GetDictTicketTypes()
         {
             return await _repository.GetDictTicketTypes();
@@ -26,6 +28,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictTicketTypes/GetDictTicketTypesActive
         [HttpGet("GetDictTicketTypesActive")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<DictTicketTypeDetail>>> GetDictTicketTypesActive()
         {
             return await _repository.GetDictTicketTypesActive();
@@ -33,6 +36,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictTicketTypes/GetDictTicketTypesNotActive
         [HttpGet("GetDictTicketTypesNotActive")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<DictTicketTypeDetail>>> GetDictTicketTypesNotActive()
         {
             return await _repository.GetDictTicketTypesNotActive();
@@ -40,6 +44,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictTicketTypes/GetDictTicketTypesAllActive
         [HttpGet("GetDictTicketTypesAllActive")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<DictTicketTypeDetail>>> GetDictTicketTypesAllActive()
         {
             return await _repository.GetDictTicketTypesAllActive();
@@ -47,6 +52,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictTicketTypes/GetDictTicketTypesAllNotActive
         [HttpGet("GetDictTicketTypesAllNotActive")]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<DictTicketTypeDetail>>> GetDictTicketTypesAllNotActive()
         {
             return await _repository.GetDictTicketTypesAllNotActive();
@@ -54,6 +60,7 @@ namespace QRWebApi.Controllers
 
         // GET: api/DictTicketTypes/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<DictTicketType>> GetDictTicketType(int id)
         {
             if (id != null)

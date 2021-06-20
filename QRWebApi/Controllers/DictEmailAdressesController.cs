@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Identity.Web.Resource;
 using QRWebApi.EmailSender;
 using QRWebApi.Models;
 
@@ -19,14 +23,17 @@ namespace QRWebApi.Controllers
         }
 
         // GET: api/DictEmailAdresses
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DictEmailAdress>>> GetDictEmailAdresses()
         {
+            HttpContext.VerifyUserHasAnyAcceptedScope("Contact.View");
             return await _repository.GetDictEmailAdresses();
         }
 
         // POST: api/DictEmailAdresses
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<DictEmailAdress>> PostDictEmailAdress(DictEmailAdress dictEmailAdress)
         {
             if (dictEmailAdress != null)
